@@ -1,0 +1,7 @@
+# Rust addon: ship only index.js, index.d.ts, *.node (do not use .gitignore so *.node are included)
+tools/rust_api/target
+tools/rust_api/src
+tools/rust_api/cxx
+tools/rust_api/build.rs
+tools/rust_api/Cargo.toml
+tools/rust_api/Cargo.lock

@@ -1,0 +1,65 @@
+{
+  "name": "ladybug-node-zero-rs",
+  "version": "0.14.0",
+  "private": true,
+  "description": "Node.js addon via napi-rs (Rust) for LadybugDB",
+  "author": "vkozio",
+  "files": [
+    "src",
+    "scripts",
+    "tools/rust_api"
+  ],
+  "type": "module",
+  "main": "./src/api/index.ts",
+  "types": "./src/api/index.ts",
+  "exports": {
+    ".": {
+      "browser": "./src/api/index-browser.ts",
+      "types": "./src/api/index.ts",
+      "import": "./src/api/index.ts",
+      "default": "./src/api/index.ts"
+    }
+  },
+  "browser": {
+    "./src/api/addon.ts": "./src/api/addon-browser.ts"
+  },
+  "scripts": {
+    "build:addon": "cd tools/rust_api && node ../../node_modules/@napi-rs/cli/dist/cli.js build --platform --no-js --release",
+    "pack:prebuild": "node scripts/pack-prebuild.ts",
+    "build:addon:debug": "cd tools/rust_api && node ../../node_modules/@napi-rs/cli/dist/cli.js build --platform --no-js",
+    "download:ladybug": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/download-ladybug.ps1",
+    "copy:dll": "node scripts/copy-ladybug-dll.ts",
+    "build:browser": "vite build --config examples/browser/vite.config.ts",
+    "dev:browser": "vite --config examples/browser/vite.config.ts",
+    "test": "node --test e2e/addon-sanity.e2e.test.ts e2e/api-surface.e2e.test.ts e2e/addon.e2e.test.ts e2e/addon-api.e2e.test.ts e2e/addon-wasm-path.e2e.test.ts e2e/db-api.e2e.test.ts e2e/graph-adapter.e2e.test.ts",
+    "lint": "oxlint --type-aware",
+    "lint:fix": "oxlint --type-aware --fix",
+    "fmt": "oxfmt",
+    "fmt:check": "oxfmt --check",
+    "typecheck": "tsc --noEmit",
+    "postinstall": "node scripts/postinstall-addon.ts",
+    "prepare": "simple-git-hooks"
+  },
+  "devDependencies": {
+    "@napi-rs/cli": "^3.5.1",
+    "@types/node": "^24",
+    "oxfmt": "^0.35.0",
+    "oxlint": "^1.50.0",
+    "oxlint-tsgolint": "latest",
+    "simple-git-hooks": "^2.13.1",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npm run typecheck && npm run fmt && npm run lint"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "optionalDependencies": {
+    "lbug-wasm": "npm:null@*"
+  },
+  "dependencies": {
+    "apache-arrow": "^21.1.0"
+  }
+}

@@ -1,0 +1,34 @@
+.vscode/
+.cursor/
+.claude/
+.spec-*/
+node_modules/
+*.node
+target/
+dist/
+.env
+.env.local
+.clone-cache/
+
+
+# npm pack output
+*.tgz
+
+# Prebuild: local pack output (CI uploads to Release)
+prebuild-*.zip
+node_modules/.prebuild-dl/
+
+# Prebuilt Ladybug: do not commit binaries (large, platform-specific).
+# Use: npm run download:ladybug
+third_party/ladybug/*
+!third_party/ladybug/README.md
+
+tools/rust_api/lbug_shared.dll
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Lockfiles (optional; remove if you want to commit them)
+package-lock.json
+pnpm-lock.yaml
