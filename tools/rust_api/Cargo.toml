@@ -1,0 +1,30 @@
+[package]
+name = "ladybug-native"
+version = "0.1.0"
+edition = "2021"
+description = "Native Node.js addon for Ladybug (napi-rs, cxx, Arrow, Zero-Copy)"
+
+[lib]
+crate-type = ["cdylib"]
+
+[features]
+default = []
+# When LBUG_LIBRARY_DIR and LBUG_INCLUDE_DIR are set, build with ladybug linked (real DB).
+# Otherwise C++ bridge uses stubs so the addon still builds.
+
+[dependencies]
+napi = "3"
+napi-derive = "3"
+cxx = "1.0"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+arrow = { version = "55", default-features = false, features = ["ffi", "ipc"] }
+arrow-schema = { version = "55", default-features = false }
+
+[build-dependencies]
+napi-build = "2"
+cxx-build = "1.0"
+
+[profile.release]
+lto = true
+codegen-units = 1

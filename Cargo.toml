@@ -1,0 +1,14 @@
+[workspace]
+resolver = "2"
+members = ["tools/rust_api", "tools/ladybug_core"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+
+[workspace.dependencies]
+chrono = "=0.4.38"
+
+[profile.release]
+lto = true
+codegen-units = 1

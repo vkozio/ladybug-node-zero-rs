@@ -1,0 +1,3 @@
+[toolchain]
+channel = "stable"
+# napi-rs 2.x and Ladybug Rust bindings recommend stable; 1.75+ is safe
