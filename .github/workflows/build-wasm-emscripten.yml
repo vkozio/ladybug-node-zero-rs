@@ -1,0 +1,47 @@
+# Experimental: test building Rust + lbug for wasm32-unknown-emscripten.
+# See .spec-workflow/013-wasm-addon-persistence/design.md "Alternative: Rust + lbug compiled to WASM".
+# This job may fail until lbug crate supports this target (build.rs using emcc); we use continue-on-error to avoid blocking.
+
+name: Build WASM (wasm32-unknown-emscripten)
+
+on:
+  push:
+    branches: [master, main]
+  workflow_dispatch: {}
+
+jobs:
+  wasm-emscripten:
+    runs-on: ubuntu-24.04
+    continue-on-error: true
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-emscripten
+
+      - name: Setup Emscripten
+        uses: mymindstorm/setup-emsdk@v16
+        with:
+          version: "latest"
+
+      - name: Cache Cargo
+        uses: Swatinem/rust-cache@v2
+        with:
+          key: wasm-emscripten
+
+      - name: Build ladybug_core for wasm32-unknown-emscripten
+        run: cargo build --release -p ladybug_core --target wasm32-unknown-emscripten
+        env:
+          # Ensure C++ side of lbug (cxx) uses emcc; emsdk action usually sets these
+          CC: emcc
+          CXX: emcc
+
+      - name: Upload build artifact
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ladybug_core-wasm-emscripten
+          path: target/wasm32-unknown-emscripten/release/

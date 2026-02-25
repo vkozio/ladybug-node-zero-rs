@@ -1,0 +1,85 @@
+name: Prebuild
+
+on:
+  push:
+    branches: [master, main]
+  release:
+    types: [published]
+  workflow_dispatch: {}
+
+
+env:
+  LADYBUG_REPO: vkozio/ladybug
+  LADYBUG_VERSION: v0.14.2-bindings.0
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: windows-latest
+            triple: win32-x64-msvc
+          # Add when Ladybug prebuilds available in CI:
+          # - runner: macos-latest
+          #   triple: darwin-arm64
+          # - runner: ubuntu-24.04
+          #   triple: linux-x64-gnu
+
+    runs-on: ${{ matrix.runner }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'release' && github.event.release.tag_name || github.ref }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: "npm"
+
+      - name: Install deps
+        run: npm install
+
+      - name: Download Ladybug (Windows)
+        if: runner.os == 'Windows'
+        run: npm run download:ladybug
+
+      - name: Build addon
+        run: npm run build:addon
+
+      - name: Copy DLL (Windows)
+        if: runner.os == 'Windows'
+        run: npm run copy:dll
+
+      - name: Pack prebuild
+        run: node scripts/pack-prebuild.ts ${{ matrix.triple }}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: prebuild-${{ matrix.triple }}
+          path: prebuild-${{ matrix.triple }}.zip
+
+  release:
+    if: github.event_name == 'release' && github.event.action == 'published'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          merge-multiple: true
+
+      - name: Upload to Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.release.tag_name }}
+          files: artifacts/**/*.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
