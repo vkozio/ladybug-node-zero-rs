@@ -1,5 +1,4 @@
 # Experimental: test building Rust + lbug for wasm32-unknown-emscripten.
-# See .spec-workflow/013-wasm-addon-persistence/design.md "Alternative: Rust + lbug compiled to WASM".
 # This job may fail until lbug crate supports this target (build.rs using emcc); we use continue-on-error to avoid blocking.
 
 name: Build WASM (wasm32-unknown-emscripten)
