@@ -1,5 +1,5 @@
 /**
- * Node WASM path: implements AddonBinding by wrapping lbug-wasm/nodejs/sync (NODEFS).
+ * Node WASM path: implements AddonBinding by wrapping @lbug/lbug-wasm/nodejs/sync (NODEFS).
  * Enable with LADYBUG_USE_WASM=1. Browser uses addon-wasm-browser.ts instead.
  */
 import { createRequire } from "node:module";
@@ -13,13 +13,13 @@ let wasmAddon: AddonBinding | null = null;
 function loadWasmAddon(): AddonBinding {
   if (wasmAddon) return wasmAddon;
   try {
-    const lbug = require("lbug-wasm/nodejs/sync") as LbugWasmSync;
+    const lbug = require("@lbug/lbug-wasm/nodejs/sync") as LbugWasmSync;
     wasmAddon = createWasmBinding(lbug);
     return wasmAddon;
   } catch (e) {
     const msg = e instanceof Error ? e.message : String(e);
     throw new Error(
-      `LADYBUG_USE_WASM is set but lbug-wasm could not be loaded: ${msg}. Install with: npm i lbug-wasm (or pnpm add lbug-wasm).`,
+      `LADYBUG_USE_WASM is set but @lbug/lbug-wasm could not be loaded: ${msg}. Install with: npm i @lbug/lbug-wasm (or pnpm add @lbug/lbug-wasm).`,
       { cause: e },
     );
   }

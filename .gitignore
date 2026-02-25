@@ -30,5 +30,4 @@ tools/rust_api/lbug_shared.dll
 Thumbs.db
 
 # Lockfiles (optional; remove if you want to commit them)
-package-lock.json
 pnpm-lock.yaml

@@ -30,7 +30,7 @@ export type { AddonBinding } from "./addon-types.ts";
 
 export const LBUG_DATABASE_LOCKED = "LBUG_DATABASE_LOCKED";
 export const LADYBUG_NOT_LINKED_MESSAGE =
-  "Ladybug not linked. In browser use lbug-wasm (WASM path only).";
+  "Ladybug not linked. In browser use @lbug/lbug-wasm (WASM path only).";
 export const NATIVE_BINDING_NOT_FOUND_MESSAGE =
   "Browser build: native binding not available. Use initAddon() then getAddon().";
 

@@ -1,5 +1,5 @@
 /**
- * Shared WASM binding: maps lbug-wasm sync API to AddonBinding. No Node/browser APIs; used by addon-wasm.ts and addon-wasm-browser.ts.
+ * Shared WASM binding: maps @lbug/lbug-wasm sync API to AddonBinding. No Node/browser APIs; used by addon-wasm.ts and addon-wasm-browser.ts.
  */
 import type { AddonBinding, NativeTopology } from "./addon-types.ts";
 

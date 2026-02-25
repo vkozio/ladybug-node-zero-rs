@@ -1,5 +1,5 @@
 //! Rust core for Ladybug: Database, Connection, QueryResult over lbug crate; Arrow IPC output.
-//! Native only (lbug uses cxx/cmake); WASM path uses lbug-wasm (npm).
+//! Native only (lbug uses cxx/cmake); WASM path uses @lbug/lbug-wasm (npm).
 
 mod storage;
 

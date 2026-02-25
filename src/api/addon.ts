@@ -1,8 +1,8 @@
 /**
- * Load native addon (tools/rust_api) or WASM path (lbug-wasm). DB handle API: database_create_sync/async,
+ * Load native addon (tools/rust_api) or WASM path (@lbug/lbug-wasm). DB handle API: database_create_sync/async,
  * database_close_sync, database_connect_sync, connection_close_sync,
  * connection_query_sync/async, query_result_*, get_all_arrow_chunks_async.
- * Set LADYBUG_USE_WASM=1 to use lbug-wasm (optional dep) instead of native addon.
+ * Set LADYBUG_USE_WASM=1 to use @lbug/lbug-wasm (optional dep) instead of native addon.
  */
 import { createRequire } from "node:module";
 import path from "node:path";
