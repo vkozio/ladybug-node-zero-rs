@@ -37,6 +37,8 @@ jobs:
           # Ensure C++ side of lbug (cxx) uses emcc; emsdk action usually sets these
           CC: emcc
           CXX: emcc
+          # cxx crate C++ code uses throw; emcc defaults to -fno-exceptions
+          CXXFLAGS_wasm32_unknown_emscripten: "-fexceptions"
 
       - name: Upload build artifact
         if: success()
