@@ -23,7 +23,7 @@ jobs:
           targets: wasm32-unknown-emscripten
 
       - name: Setup Emscripten
-        uses: mymindstorm/setup-emsdk@v16
+        uses: pyodide/setup-emsdk@v15
         with:
           version: "latest"
 
